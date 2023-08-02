@@ -5,10 +5,25 @@
 	<h2>Direct access: {{ $store.state.count }}</h2>
 	<h2>Computed: {{ countComputed }}</h2>
 
-	<button @click="onIncrement">+1</button>
-	<button @click="onIncrementBy">random</button>
-	<button @click="onDecrement">-1</button>
-	<span>{{ $store.state.isLoading ? 'loagin...' : '' }}</span>
+	<button
+		:disabled="isLoading"
+		@click="onIncrement"
+	>
+		+1
+	</button>
+	<button
+		:disabled="isLoading"
+		@click="onIncrementBy"
+	>
+		random
+	</button>
+	<button
+		:disabled="isLoading"
+		@click="onDecrement"
+	>
+		-1
+	</button>
+	<div>{{ $store.state.isLoading ? 'loading...' : '' }}</div>
 
 	<h2>mapState {{ count }}</h2>
 	<h2>lastMutation {{ lastMutation }}</h2>
@@ -39,6 +54,7 @@
 				count: (state) => state.count,
 				lastMutation: (state) => state.lastMutation,
 				lastRandomInt: (state) => state.lastRandomInt,
+				isLoading: (state) => state.isLoading,
 			}),
 		},
 	};
