@@ -8,13 +8,15 @@
 	<button @click="onIncrement">+1</button>
 	<button @click="onIncrementBy">random</button>
 	<button @click="onDecrement">-1</button>
+	<span>{{ $store.state.isLoading ? 'loagin...' : '' }}</span>
 
 	<h2>mapState {{ count }}</h2>
 	<h2>lastMutation {{ lastMutation }}</h2>
+	<h2>lastRandomInt {{ lastRandomInt }}</h2>
 </template>
 
 <script>
-	import { mapState } from 'vuex';
+	import { mapState, mapActions } from 'vuex';
 
 	export default {
 		name: 'counter-component',
@@ -25,9 +27,9 @@
 			onDecrement() {
 				this.$store.commit('decrement');
 			},
-			onIncrementBy() {
-				this.$store.commit('incrementBy', 10);
-			},
+			...mapActions({
+				onIncrementBy: 'incrementRandomInt',
+			}),
 		},
 		computed: {
 			countComputed() {
@@ -36,6 +38,7 @@
 			...mapState({
 				count: (state) => state.count,
 				lastMutation: (state) => state.lastMutation,
+				lastRandomInt: (state) => state.lastRandomInt,
 			}),
 		},
 	};
