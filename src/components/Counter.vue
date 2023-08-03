@@ -2,7 +2,7 @@
 
 <template>
 	<h1>Counter - Vuex</h1>
-	<h2>Direct access: {{ $store.state.count }}</h2>
+	<h2>Direct access: {{ $store.state.counter.count }}</h2>
 	<h2>Computed: {{ countComputed }}</h2>
 
 	<button
@@ -28,6 +28,8 @@
 	<h2>mapState {{ count }}</h2>
 	<h2>lastMutation {{ lastMutation }}</h2>
 	<h2>lastRandomInt {{ lastRandomInt }}</h2>
+
+	<h2>Direct getter: {{ $store.getters['counter/squareCount'] }}</h2>
 </template>
 
 <script>
@@ -37,24 +39,26 @@
 		name: 'counter-component',
 		methods: {
 			onIncrement() {
-				this.$store.commit('increment');
+				this.$store.commit('counter/increment');
 			},
 			onDecrement() {
-				this.$store.commit('decrement');
+				this.$store.commit('counter/decrement');
 			},
-			...mapActions({
+			// ...mapActions('counter', ['incrementRandomInt']),
+			...mapActions('counter', {
 				onIncrementBy: 'incrementRandomInt',
 			}),
 		},
 		computed: {
 			countComputed() {
-				return this.$store.state.count;
+				return this.$store.state.counter.count;
 			},
+			// ...mapState('counter', ['count', 'lastMutation', 'isLoading']),
 			...mapState({
-				count: (state) => state.count,
-				lastMutation: (state) => state.lastMutation,
-				lastRandomInt: (state) => state.lastRandomInt,
-				isLoading: (state) => state.isLoading,
+				count: (state) => state.counter.count,
+				lastMutation: (state) => state.counter.lastMutation,
+				lastRandomInt: (state) => state.counter.lastRandomInt,
+				isLoading: (state) => state.counter.isLoading,
 			}),
 		},
 	};
